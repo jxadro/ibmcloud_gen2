@@ -40,10 +40,6 @@ data "ibm_is_ssh_key" "ssh_key_id" {
 }
 
 
-
-
-
-
 resource "ibm_is_instance" "vsi1" {
   name    = "test"
   vpc     = "r006-77dc4617-c35c-425b-9ac9-a8543637d207"
@@ -51,7 +47,7 @@ resource "ibm_is_instance" "vsi1" {
   keys    = ["r006-2ffd2fd2-6447-44e0-a9c2-23e1410b44b6"]
   image   = "r006-ed3f775f-ad7e-4e37-ae62-7199b4988b00"
   profile = "cx2-2x4"
-  resource_group = "jordax_rg"
+  
 
   primary_network_interface {
     subnet          = "0717-b99a0f2e-e309-44c8-ad8c-a973efc3bdcc"
