@@ -40,20 +40,7 @@ data "ibm_is_ssh_key" "ssh_key_id" {
 }
 
 
-resource "ibm_is_instance" "vsi1" {
-  name    = "${local.BASENAME}-${var.instance_name}"
-  vpc     = data.ibm_is_vpc.vpc.id
-  zone    = local.ZONE
-  keys    = [data.ibm_is_ssh_key.ssh_key_id.id]
-  image   = data.ibm_is_image.ubuntu.id
-  profile = "cx2-2x4"
-  resource_group = "jordax_rg"
 
-  primary_network_interface {
-    subnet          = data.ibm_is_subnet.subnet1.id
-    security_groups = [data.ibm_is_security_group.sg1.id]
-  }
-}
 
 resource "ibm_is_floating_ip" "fip1" {
   name   = "${local.BASENAME}-fip1"
