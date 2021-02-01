@@ -1,4 +1,10 @@
 
+terraform {
+  required_providers {
+    ibm = "~> 1.20"
+  }
+}
+
 
 
 locals {
