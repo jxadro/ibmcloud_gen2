@@ -65,11 +65,21 @@ resource "ibm_is_floating_ip" "fip1" {
 output "ip" {
   value = ibm_is_floating_ip.fip1.address
 }
-*/
 
+*/
 output "vpc" {
   value = data.ibm_is_vpc.vpc.id
 }
+
+output "image" {
+  value = data.ibm_is_image.ubuntu.id
+}
+
+
+output "key" {
+  value = data.ibm_is_ssh_key.ssh_key_id.id
+}
+
 
 output "zone" {
   value = local.ZONE
