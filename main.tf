@@ -42,7 +42,7 @@ data "ibm_is_ssh_key" "ssh_key_id" {
 
 
 
-/*
+
 
 resource "ibm_is_instance" "vsi1" {
   name    = "test"
@@ -54,8 +54,8 @@ resource "ibm_is_instance" "vsi1" {
   resource_group = "jordax_rg"
 
   primary_network_interface {
-    subnet          = data.ibm_is_subnet.subnet1.id
-    security_groups = [data.ibm_is_security_group.sg1.id]
+    subnet          = "0717-b99a0f2e-e309-44c8-ad8c-a973efc3bdcc"
+    security_groups = ["r006-d099dfb0-73d1-4f12-b4f2-874dd6105415"]
   }
 }
 
@@ -69,7 +69,7 @@ resource "ibm_is_floating_ip" "fip1" {
 output "ip" {
   value = ibm_is_floating_ip.fip1.address
 }
-*/
+
 
 output "sg" {
   value = data.ibm_is_security_group.sg1.id
