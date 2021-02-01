@@ -39,7 +39,7 @@ data "ibm_is_ssh_key" "ssh_key_id" {
   name = "${var.ssh_key_name}"
 }
 
-
+/*
 resource "ibm_is_instance" "vsi1" {
   name    = "test"
   vpc     = data.ibm_is_vpc.vpc.id
@@ -60,8 +60,16 @@ resource "ibm_is_floating_ip" "fip1" {
   target = ibm_is_instance.vsi1.primary_network_interface[0].id
 }
 
-
+*/
 
 output "ip" {
   value = ibm_is_floating_ip.fip1.address
+}
+
+output "vpc" {
+  value = data.ibm_is_vpc.vpc.id
+}
+
+output "zone" {
+  value = local.ZONE
 }
