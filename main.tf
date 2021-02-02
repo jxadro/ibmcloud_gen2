@@ -1,12 +1,3 @@
-
-terraform {
-  required_providers {
-    ibm = "~> 1.20"
-  }
-}
-
-
-
 locals {
   BASENAME = "jordax"
   ZONE     = "us-south-1"
@@ -36,22 +27,26 @@ data "ibm_is_image" "ubuntu" {
 }
 
 data "ibm_is_ssh_key" "ssh_key_id" {
-  name = "${var.ssh_key_name}"
+  name = var.ssh_key_name
+}
+
+data "ibm_resource_group" "group" {
+  name = "jordax_rg"
 }
 
 
 resource "ibm_is_instance" "vsi1" {
-  name    = "test"
-  vpc     = "r006-77dc4617-c35c-425b-9ac9-a8543637d207"
-  zone    = "us-south-1"
-  keys    = ["r006-2ffd2fd2-6447-44e0-a9c2-23e1410b44b6"]
-  image   = "r006-ed3f775f-ad7e-4e37-ae62-7199b4988b00"
+  name    = "${local.BASENAME}-${var.instance_name}"
+  vpc     = data.ibm_is_vpc.vpc.id
+  zone    = local.ZONE
+  keys    = [data.ibm_is_ssh_key.ssh_key_id.id]
+  image   = data.ibm_is_image.ubuntu.id
   profile = "cx2-2x4"
-  
+  resource_group = data.ibm_resource_group.group.id
 
   primary_network_interface {
-    subnet          = "0717-b99a0f2e-e309-44c8-ad8c-a973efc3bdcc"
-    security_groups = ["r006-d099dfb0-73d1-4f12-b4f2-874dd6105415"]
+    subnet          = data.ibm_is_subnet.subnet1.id
+    security_groups = [data.ibm_is_security_group.sg1.id]
   }
 }
 
@@ -61,34 +56,6 @@ resource "ibm_is_floating_ip" "fip1" {
 }
 
 
-
 output "ip" {
   value = ibm_is_floating_ip.fip1.address
-}
-
-
-output "sg" {
-  value = data.ibm_is_security_group.sg1.id
-}
-
-output "subnet" {
-  value = data.ibm_is_subnet.subnet1.id
-}
-
-output "vpc" {
-  value = data.ibm_is_vpc.vpc.id
-}
-
-output "image" {
-  value = data.ibm_is_image.ubuntu.id
-}
-
-
-output "key" {
-  value = data.ibm_is_ssh_key.ssh_key_id.id
-}
-
-
-output "zone" {
-  value = local.ZONE
 }
